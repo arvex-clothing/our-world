@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
+  <meta name="theme-color" content="#a9d8c7" />
+  <title>OUR WORLD — a tiny universe together</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="app">
+    <canvas id="world"></canvas>
+    <div class="vignette"></div>
+    <header class="topbar">
+      <button class="brand" id="homeBtn" aria-label="Open world menu"><span class="brand-orb">✦</span><span>OUR <b>WORLD</b><small>our little universe</small></span></button>
+      <div class="status"><i id="statusDot"></i><span id="statusText">Local world</span><span class="room-pill" id="roomPill">DREAMLAND</span></div>
+      <div class="top-actions"><button class="icon-btn" id="timeBtn" title="Change atmosphere">☼</button><button class="icon-btn" id="soundBtn" title="Toggle ambience">♫</button><button class="icon-btn" id="settingsBtn" title="Settings">⚙</button></div>
+    </header>npm.cmd run dev
+
+    <section class="welcome glass" id="welcome">
+      <div class="eyebrow"><span class="sparkle">✧</span> A WORLD THAT BELONGS TO YOU TWO</div>
+      <h1>Somewhere<br><em>just for us.</em></h1>
+      <p>Grow a tiny town, leave little surprises, and make a place that feels like yours.</p>
+      <label>Your name<input id="playerName" maxlength="18" placeholder="What should we call you?" value="Dreamer"></label>
+      <div class="welcome-actions"><button class="primary" id="soloBtn">Explore my world <span>↗</span></button><button class="secondary" id="createBtn">Create private world</button></div>
+      <div class="join-row"><input id="roomCodeInput" maxlength="8" placeholder="Enter a room code"><button class="secondary" id="joinBtn">Join a world</button></div>
+      <div class="setup-note" id="setupNote">You can explore locally right away. Add Supabase credentials to enable shared online worlds.</div>
+    </section>
+
+    <aside class="left-panel glass" id="questPanel">
+      <div class="panel-kicker">LITTLE ADVENTURES <span>✦</span></div>
+      <h3>Today in our world</h3>
+      <div class="quest"><span class="quest-icon">🌼</span><div><b>Make it bloom</b><small>Place 3 garden things</small></div><span id="gardenCount">0/3</span></div>
+      <div class="quest"><span class="quest-icon">💌</span><div><b>Leave a little note</b><small>Make someone's day</small></div><span id="noteCount">0/1</span></div>
+      <div class="quest"><span class="quest-icon">🦋</span><div><b>Find the meadow</b><small>Wander beyond the pond</small></div><span>♡</span></div>
+      <button class="subtle-btn" id="hideQuest">Hide this panel ↖</button>
+    </aside>
+
+    <div class="player-labels" id="playerLabels"></div>
+    <div class="toast" id="toast"></div>
+
+    <nav class="bottom-dock glass" id="dock">
+      <button class="dock-btn active" data-mode="walk"><span>🧭</span><small>Explore</small></button>
+      <button class="dock-btn" data-mode="build"><span>🏡</span><small>Build</small></button>
+      <button class="dock-btn" data-mode="garden"><span>🌿</span><small>Nature</small></button>
+      <button class="dock-btn" data-mode="note"><span>💌</span><small>Leave a note</small></button>
+      <button class="dock-btn" data-mode="chat"><span>♡</span><small>Chat <i id="unreadDot"></i></small></button>
+      <button class="dock-btn" data-mode="emote"><span>✨</span><small>Emote</small></button>
+    </nav>
+
+    <section class="catalog glass" id="catalog">
+      <div class="catalog-head"><div><span class="panel-kicker">MAKE IT YOURS</span><h3>Build something lovely</h3></div><button class="close-btn" id="closeCatalog">×</button></div>
+      <div class="category-tabs"><button class="cat-tab selected" data-cat="all">All</button><button class="cat-tab" data-cat="build">Buildings</button><button class="cat-tab" data-cat="garden">Garden</button><button class="cat-tab" data-cat="decor">Decor</button><button class="cat-tab" data-cat="road">Paths</button></div>
+      <div class="item-grid" id="itemGrid"></div>
+      <div class="catalog-foot">Tap an item, then tap the ground to place it. <span>↗</span></div>
+    </section>
+
+    <section class="chat-panel glass" id="chatPanel">
+      <div class="catalog-head"><div><span class="panel-kicker">YOUR LITTLE CORNER</span><h3>Messages <span class="online-count" id="onlineCount">1 here</span></h3></div><button class="close-btn" id="closeChat">×</button></div>
+      <div class="chat-messages" id="chatMessages"><div class="empty-chat">Your first little hello belongs here. ✨</div></div>
+      <form id="chatForm" class="chat-form"><input id="chatInput" maxlength="400" placeholder="Say something kind…" autocomplete="off"><button class="send-btn" aria-label="Send message">➤</button></form>
+      <div class="chat-foot">Be sweet. This is your shared space. ♡</div>
+    </section>
+
+    <section class="note-modal glass" id="noteModal">
+      <button class="close-btn note-close" id="closeNote">×</button><div class="note-flower">🌷</div><span class="panel-kicker">A LITTLE SOMETHING</span><h3>Leave a tiny note</h3><p>Place a message somewhere in your world for the other person to discover.</p><textarea id="noteText" maxlength="240" placeholder="A small thought, a sweet reminder…"></textarea><div class="modal-actions"><button class="secondary" id="cancelNote">Not now</button><button class="primary" id="saveNote">Place note ✦</button></div>
+    </section>
+
+    <section class="settings-modal glass" id="settingsModal"><div class="catalog-head"><h3>World settings</h3><button class="close-btn" id="closeSettings">×</button></div><label>World name<input id="worldNameInput" maxlength="32" value="Dreamland"></label><label>Atmosphere<select id="atmosphereSelect"><option value="day">Minty morning</option><option value="sunset">Peach sunset</option><option value="night">Firefly night</option><option value="twilight">Dreamy twilight</option></select></label><label>Graphics quality<select id="qualitySelect"><option value="high">High</option><option value="balanced" selected>Balanced</option><option value="lite">Lite (mobile)</option></select></label><label class="toggle-row">Sound effects <input id="soundToggle" type="checkbox" checked></label><div class="modal-actions"><button class="secondary" id="exportBtn">Export backup</button><button class="primary" id="saveSettings">Save settings</button></div><div class="settings-help" id="settingsHelp">Backups save your placed objects and notes as a JSON file.</div></section>
+
+    <div class="mobile-controls" id="mobileControls"><div class="joystick" id="joystick"><div class="joy-knob" id="joyKnob"></div></div><button id="interactBtn" class="interact-btn">✦</button></div>
+    <div class="hint-pill" id="hintPill">WASD / arrows to wander · tap the ground to move</div>
+    <div class="build-hint" id="buildHint">Choose a little thing from the catalogue, then tap a spot in your world.</div>
+    <input type="file" id="importInput" accept="application/json" hidden>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
